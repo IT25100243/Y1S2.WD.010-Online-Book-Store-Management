@@ -29,6 +29,12 @@ public class Book extends BookItem {
         if (stock < 0) throw new IllegalArgumentException("Stock cannot be negative.");
         this.stock = stock;
     }
+    /**
+    * Decreases stock by one when a purchase occurs.
+    *
+    * @return true if stock was reduced successfully,
+    *         false if no stock remains
+    */
 
     public void addStock(int qty) {
         if (qty < 0) throw new IllegalArgumentException("Cannot add negative stock.");
@@ -45,7 +51,16 @@ public class Book extends BookItem {
     public String getImageUrl()    { return imageUrl; }
     public String getDescription() { return description; }
 
-    // POLYMORPHISM: Book-specific stock status
+    /**
+    * Returns stock availability status.
+    *
+    * Rules:
+    * - stock > 20 → In Stock
+    * - stock > 0 → Low Stock
+    * - stock = 0 → Out of Stock
+    *
+    * @return stock status message
+    */
     @Override
     public String getStockStatus() {
         if (stock > 20) return "In Stock";
