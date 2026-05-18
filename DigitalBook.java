@@ -12,6 +12,25 @@ public class DigitalBook extends Book {
     private final String fileFormat;
     private final String downloadUrl;
 
+    /**
+    * Creates a digital book with unlimited availability.
+    *
+    * Digital books inherit from Book but do not use
+    * physical stock tracking. Stock is internally
+    * assigned as Integer.MAX_VALUE.
+    *
+    * @param id unique book identifier
+    * @param category book category
+    * @param title book title
+    * @param author author name
+    * @param price digital book price
+    * @param pages total number of pages
+    * @param imageUrl cover image URL
+    * @param description book description
+    * @param fileFormat file type (PDF, EPUB, etc.)
+    * @param downloadUrl download location
+    */
+
     public DigitalBook(String id, String category, String title, String author,
                        double price, int pages, String imageUrl,
                        String description, String fileFormat, String downloadUrl) {
@@ -21,16 +40,26 @@ public class DigitalBook extends Book {
         this.downloadUrl  = downloadUrl;
     }
 
+
+
+
     public String getFileFormat()  { return fileFormat; }
     public String getDownloadUrl() { return downloadUrl; }
 
-    // POLYMORPHISM: Digital books are ALWAYS available
+    /**
+    * Returns stock status for digital items.
+    * Digital books never run out of stock.
+    */
     @Override
     public String getStockStatus() { return "Digital — Always Available"; }
 
     @Override
     public String getStockClass()  { return "stock-ok"; }
 
+    /**
+   * Digital books are always available
+   * because inventory is unlimited.
+   */
     @Override
     public boolean isAvailable()   { return true; }
 
@@ -41,7 +70,10 @@ public class DigitalBook extends Book {
     @Override
     public String getEntityType()  { return "DigitalBook"; }
 
-    // POLYMORPHISM: DigitalBook-specific JSON
+    /**
+    * Converts DigitalBook object into JSON format
+    * for storage and data transfer.
+    */
     @Override
     public String toJson() {
         return String.format(
