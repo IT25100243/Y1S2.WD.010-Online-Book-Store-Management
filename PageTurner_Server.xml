@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="PageTurner Server" type="Application" factoryName="Application">
+        <option name="MAIN_CLASS_NAME" value="com.pageturner.server.Main" />
+        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+        <module name="bookstore" />
+        <method v="2">
+            <option name="Make" enabled="true" />
+        </method>
+    </configuration>
+</component>
