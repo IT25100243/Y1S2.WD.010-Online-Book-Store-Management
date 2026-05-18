@@ -3,14 +3,6 @@ package com.pageturner.model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * ABSTRACTION: Abstract base class for all stored entities.
- * Cannot be instantiated directly.
- * Forces all subclasses to implement toJson() and getEntityType().
- *
- * ENCAPSULATION: id and createdAt are private with public getters only.
- */
-
 public abstract class BaseEntity {
 
     // ENCAPSULATION: private fields — only accessible via getters
@@ -25,7 +17,7 @@ public abstract class BaseEntity {
         this.createdAt = LocalDateTime.now().format(FORMATTER);
     }
 
-    // ENCAPSULATION: read-only getters (no setters)
+    // ENCAPSULATION: read-only getters 
     public String getId()        { return id; }
     public String getCreatedAt() { return createdAt; }
 
