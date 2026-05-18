@@ -21,7 +21,15 @@ public class BookDAO {
         this.db = db;
     }
 
-    // ── READ ──────────────────────────────────────────────────────────────
+    /**
+    * Retrieves all books stored in the database file.
+    *
+    * Reads each JSON line and converts it into
+    * a Book object using parseBook().
+    *
+    * @return list of all books
+    * @throws IOException if file reading fails
+    */
 
     public List<Book> findAll() throws IOException {
         List<String> lines = db.readLines(db.booksFile());
@@ -32,6 +40,15 @@ public class BookDAO {
         }
         return books;
     }
+    /**
+    * Filters books according to category.
+    *
+    * Comparison ignores uppercase/lowercase differences.
+    *
+    * @param category selected category
+    * @return matching books
+    * @throws IOException if file access fails
+    */
 
     public List<Book> findByCategory(String category) throws IOException {
         List<Book> result = new ArrayList<>();
@@ -40,6 +57,16 @@ public class BookDAO {
         }
         return result;
     }
+    /**
+    * Searches for a book using its unique ID.
+    *
+    * Optional is used to safely handle
+    * cases where no book exists.
+    *
+    * @param id book identifier
+    * @return Optional<Book>
+    * @throws IOException if file access fails
+    */
 
     public Optional<Book> findById(String id) throws IOException {
         for (Book b : findAll()) {
@@ -66,7 +93,16 @@ public class BookDAO {
         db.deleteById(db.booksFile(), bookId);
     }
 
-    // ── JSON PARSING (manual — demonstrates OOP factory pattern) ──────────
+    /**
+   * Converts JSON text into Book objects.
+   *
+   * Supports both:
+   * - Physical books
+   * - Digital books
+   *
+   * Uses polymorphism to create
+   * appropriate object types.
+   */
 
     private Book parseBook(String json) {
         try {
@@ -93,7 +129,15 @@ public class BookDAO {
         }
     }
 
-    // ── Simple JSON field extractors ──────────────────────────────────────
+    /**
+    * Extracts text values from JSON fields.
+    *
+    * Example:
+    * "title":"Java Basics"
+    *
+    * Returns:
+    * Java Basics
+    */
 
     static String extract(String json, String key) {
         String search = "\"" + key + "\":\"";
@@ -106,6 +150,7 @@ public class BookDAO {
                    .replace("\\\"", "\"")
                    .replace("\\n", "\n")
                    .replace("\\\\", "\\");
+
     }
 
     static String extractNum(String json, String key) {
