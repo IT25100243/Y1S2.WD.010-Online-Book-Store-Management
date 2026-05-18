@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ===== LOGIN ===== -->
+<div id="page-login" class="page active">
+  <div class="auth-card">
+    <div class="auth-logo"><img src="logo.png" alt="Logo"><h1>Book Store</h1><p>Your premium online bookstore</p></div>
+    <div class="msg" id="login-msg"></div>
+    <div class="form-group"><label>Username</label><input type="text" id="login-user" placeholder="Enter username"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="Enter password"></div>
+    <button class="btn btn-primary fw" onclick="Auth.login()">Sign In</button>
+    <div class="auth-footer">No account? <a href="#" onclick="showPage('page-register')">Register here</a></div>
+  </div>
+</div>
+
+<!-- ===== REGISTER ===== -->
+<div id="page-register" class="page">
+  <div class="auth-card">
+    <div class="auth-logo"><img src="logo.png" alt="Logo"><h1>Book Store</h1><p>Create your account</p></div>
+    <div class="msg" id="reg-msg"></div>
+    <div class="form-group"><label>Full Name</label><input type="text" id="reg-name" placeholder="Your full name"></div>
+    <div class="form-group"><label>Username</label><input type="text" id="reg-user" placeholder="Choose a username"></div>
+    <div class="form-group"><label>Email</label><input type="email" id="reg-email" placeholder="your@email.com"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="reg-pass" placeholder="Min 6 characters"></div>
+    <button class="btn btn-primary fw" onclick="Auth.register()">Create Account</button>
+    <div class="auth-footer">Have an account? <a href="#" onclick="showPage('page-login')">Sign in</a></div>
+  </div>
+</div>
+
+<!-- ===== USER APP ===== -->
+<div id="page-user" class="page">
+  <nav class="navbar">
+    <div class="nav-brand" onclick="showSection('home')">
+
+      <div class="logo-circle">
+        <img src="logo.png" alt="Logo">
+      </div>
+
+      <div class="brand-text">
+        <h1>Book Store</h1>
+        <p>THE BOOKSHOP</p>
+      </div>
+
+    </div>
+
+
+    <div class="nav-links">
+      <button onclick="showSection('home')">Home</button>
+      <button onclick="showSection('feedback')">Reviews</button>
+      <button onclick="showSection('profile')">My Account</button>
+    </div>
+    <div class="nav-right">
+      <button class="cart-btn" onclick="showSection('cart')">🛒 Cart <span class="badge" id="cart-badge">0</span></button>
+      <span class="user-info" id="user-greeting"></span>
+      <button class="logout-btn" onclick="Auth.logout()">Logout</button>
+    </div>
+  </nav>
+
+  <!-- HOME — starts active so it shows immediately after login -->
+  <div id="sec-home" class="section active">
+    <div class="hero">
+      <h2>Discover Your Next<br>Great Read</h2>
+      <p>Curated books across every genre, delivered to your door</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="loadBooks('children')">
+        <div class="cat-icon">🧒</div>
+        <h3>Children's Books</h3>
+        <p>Adventures for young readers</p>
+      </div>
+      <div class="cat-card" onclick="loadBooks('novels')">
+        <div class="cat-icon">📖</div>
+        <h3>Novels</h3>
+        <p>Epic stories &amp; great narratives</p>
+      </div>
+      <div class="cat-card" onclick="loadBooks('fiction')">
+        <div class="cat-icon">🚀</div>
+        <h3>Fiction</h3>
+        <p>Imagination knows no bounds</p>
+      </div>
+      <div class="cat-card" onclick="loadBooks('romantic')">
+        <div class="cat-icon">💕</div>
+        <h3>Romantic</h3>
+        <p>Stories of love &amp; connection</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKS -->
+  <div id="sec-books" class="section">
+    <div class="page-header">
+      <button class="back-btn" onclick="showSection('home')">← Back to Categories</button>
+      <h2 id="books-title">Books</h2>
+      <p id="books-sub">Browse our collection</p>
+    </div>
+    <div class="books-grid" id="books-grid"></div>
+  </div>
+
+  <!-- CART -->
+  <div id="sec-cart" class="section">
+    <div class="page-header"><h2>Shopping Cart</h2></div>
+    <div class="cart-wrap" id="cart-content"></div>
+  </div>
+
+  <!-- FEEDBACK -->
+  <div id="sec-feedback" class="section">
+    <div class="feedback-wrap">
+      <h2 class="sec-h">Book Reviews</h2>
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('write')">Write a Review</div>
+        <div class="tab" onclick="switchTab('read')">Browse Reviews</div>
+      </div>
+      <div id="tab-write">
+        <div class="form-card">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="fb-cat">
+              <option value="children">Children's Books</option>
+              <option value="novels">Novels</option>
+              <option value="fiction">Fiction</option>
+              <option value="romantic">Romantic</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Book Title</label><input type="text" id="fb-book" placeholder="Which book did you read?"></div>
+          <div class="form-group">
+            <label>Rating</label>
+            <div class="stars" id="star-row">
+              <span class="star" data-v="1">★</span>
+              <span class="star" data-v="2">★</span>
+              <span class="star" data-v="3">★</span>
+              <span class="star" data-v="4">★</span>
+              <span class="star" data-v="5">★</span>
+            </div>
+          </div>
+          <div class="form-group"><label>Your Review</label><textarea id="fb-text" rows="4" placeholder="Share your thoughts..."></textarea></div>
+          <button class="btn btn-primary" onclick="Feedback.submit()">Submit Review</button>
+        </div>
+      </div>
+      <div id="tab-read" class="hidden">
+        <div class="form-group" style="margin-bottom:20px">
+          <select id="filter-cat" onchange="Feedback.load()">
+            <option value="">All Categories</option>
+            <option value="children">Children's Books</option>
+            <option value="novels">Novels</option>
+            <option value="fiction">Fiction</option>
+            <option value="romantic">Romantic</option>
+          </select>
+        </div>
+        <div id="reviews-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="sec-profile" class="section">
+    <div class="profile-wrap">
+      <h2 class="sec-h">My Account</h2>
+      <div class="profile-card" id="profile-card"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN ===== -->
+<div id="page-admin" class="page">
+  <nav class="navbar">
+    <div class="nav-brand">Book Store — Admin</div>
+    <div class="nav-right">
+      <span class="user-info">Administrator</span>
+      <button class="logout-btn" onclick="Auth.logout()">Logout</button>
+    </div>
+  </nav>
+  <div class="admin-layout">
+    <div class="admin-sidebar">
+      <h3>Admin Panel</h3>
+      <button class="sb-btn active" onclick="adminTab('dashboard',this)">📊 Dashboard</button>
+      <button class="sb-btn" onclick="adminTab('stock',this)">📦 Stock</button>
+      <button class="sb-btn" onclick="adminTab('add-book',this)">➕ Add Book</button>
+      <button class="sb-btn" onclick="adminTab('orders',this)">🛒 Orders</button>
+      <button class="sb-btn" onclick="adminTab('feedback',this)">💬 Feedback</button>
+      <button class="sb-btn" onclick="adminTab('customers',this)">👥 Customers</button>
+    </div>
+    <div class="admin-body">
+
+      <div class="a-sec active" id="a-dashboard">
+        <div class="sec-title">Dashboard</div>
+        <div class="stat-grid" id="stat-grid"></div>
+        <div id="recent-wrap"></div>
+      </div>
+
+      <div class="a-sec" id="a-stock">
+        <div class="sec-title">Stock Management</div>
+        <div id="stock-wrap"></div>
+      </div>
+
+      <div class="a-sec" id="a-add-book">
+        <div class="sec-title">Add New Book</div>
+        <div class="form-card">
+          <div class="form-row">
+            <div class="form-group"><label>Title</label><input type="text" id="ab-title" placeholder="Book title"></div>
+            <div class="form-group"><label>Author</label><input type="text" id="ab-author" placeholder="Author name"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Category</label>
+              <select id="ab-cat">
+                <option value="children">Children's</option>
+                <option value="novels">Novels</option>
+                <option value="fiction">Fiction</option>
+                <option value="romantic">Romantic</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Price (LKR)</label><input type="number" id="ab-price" placeholder="e.g. 1200"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Stock</label><input type="number" id="ab-stock" placeholder="e.g. 50"></div>
+            <div class="form-group"><label>Pages</label><input type="number" id="ab-pages" placeholder="e.g. 320"></div>
+          </div>
+          <div class="form-group"><label>Image URL</label><input type="text" id="ab-img" placeholder="https://..."></div>
+          <div class="form-group"><label>Description</label><textarea id="ab-desc" rows="3" placeholder="Brief description..."></textarea></div>
+          <button class="btn btn-primary" onclick="Admin.addBook()">Add Book</button>
+        </div>
+      </div>
+
+      <div class="a-sec" id="a-orders">
+        <div class="sec-title">Orders &amp; Sales</div>
+        <div id="orders-wrap"></div>
+      </div>
+
+      <div class="a-sec" id="a-feedback">
+        <div class="sec-title">Customer Feedback</div>
+        <div id="feedback-wrap"></div>
+      </div>
+
+      <div class="a-sec" id="a-customers">
+        <div class="sec-title">Customer Management</div>
+        <div id="customers-wrap"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- BOOK MODAL -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal">
+    <div class="modal-hdr"><div></div><button class="modal-x" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
